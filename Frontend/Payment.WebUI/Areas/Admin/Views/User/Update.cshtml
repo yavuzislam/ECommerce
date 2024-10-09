@@ -1,0 +1,74 @@
+﻿@model GetByIdAppUserDto
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<form method="post" id="updateForm">
+    <input type="hidden" asp-for="Id" class="form-control" />
+
+    <div class="form-group">
+        <label for="UserName">Kullanıcı Adı</label>
+        <input type="text" asp-for="UserName" class="form-control" placeholder="Kullanıcı Adı" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="Email">Mail</label>
+        <input type="text" asp-for="Email" class="form-control" placeholder="Mail" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="Name">Ad</label>
+        <input type="text" asp-for="Name" class="form-control" placeholder="Ad" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="Surname">Soyad</label>
+        <input type="text" asp-for="Surname" class="form-control" placeholder="Soyad" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="PhoneNumber">Telefon Numarası</label>
+        <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="Telefon Numarası" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <br />
+
+    <button class="btn btn-primary" type="submit" disabled>Kullanıcıyı Güncelle</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById('updateForm');
+        const inputs = form.querySelectorAll('input');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        // Form ilk yüklendiğinde inputların değerlerini sakla
+        const initialValues = Array.from(inputs).map(input => input.value);
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', function () {
+                // Eğer input'un değeri başlangıçtaki değerle aynıysa, arka planı eski haline döndür
+                if (input.value === initialValues[index]) {
+                    input.style.backgroundColor = ""; // Orijinal renk
+                } else {
+                    input.style.backgroundColor = "#d3f9d8"; // Değişiklik olduğunda yeşil yap
+                }
+
+                // Formda herhangi bir değişiklik olup olmadığını kontrol et
+                const hasChanges = Array.from(inputs).some((input, i) => input.value !== initialValues[i]);
+
+                // Eğer değişiklik varsa butonu aktif hale getir, yoksa pasif yap
+                submitButton.disabled = !hasChanges;
+            });
+        });
+    });
+</script>

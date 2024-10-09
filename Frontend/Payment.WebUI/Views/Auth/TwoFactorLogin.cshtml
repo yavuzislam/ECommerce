@@ -1,0 +1,35 @@
+﻿@model TwoFactorLoginViewModel
+@{
+    ViewData["Title"] = "TwoFactorLogin";
+    Layout = "~/Views/UILayout/_UILayout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">@ViewData["Title"]</h3>
+                    <p class="text-center">Authenticator uygulamanızda oluşturulan kodu girin.</p>
+
+                    <form asp-action="TwoFactorLogin" method="post">
+                        <div class="form-group">
+                            <label asp-for="Code"></label>
+                            <input asp-for="Code" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Doğrula ve Giriş Yap</button>
+                    </form>
+
+                    <div class="mt-3 text-center">
+                        <a href="@Url.Action("Login", "Auth")">Giriş sayfasına dön</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* @section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+} *@

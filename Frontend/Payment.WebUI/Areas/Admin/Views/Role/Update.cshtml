@@ -1,0 +1,21 @@
+﻿@model UpdateAppRoleDto
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="ID" class="form-control" />
+    <div>
+        <input type="text" asp-for="Name" class="form-control" placeholder="Kategori Adı" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    <br />
+    <button class="btn btn-primary">Rolü Güncelle</button>
+</form>

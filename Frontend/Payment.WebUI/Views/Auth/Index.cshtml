@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/UILayout/_UILayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Login/Register</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
+    <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .login-form-bg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form__btn {
+            background-color: #1ab188;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-form__footer {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-form-bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6">
+                    <div class="form-input-content">
+                        <div class="card login-form mb-0">
+                            <div class="card-body pt-5">
+                                <a class="text-center" href="index.html">
+                                    <h4>Rosella</h4>
+                                </a>
+
+                                <!-- Login Form -->
+                                <div id="login-form">
+                                    <form class="mt-5 mb-5 login-input">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" placeholder="Email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" placeholder="Password" required>
+                                        </div>
+                                        <button class="btn login-form__btn submit w-100">Sign In</button>
+                                    </form>
+                                    <p class="mt-5 login-form__footer">
+                                        Don't have an account?
+                                        <a href="#" id="show-register" class="text-primary">Sign Up</a> now
+                                    </p>
+                                </div>
+
+                                <!-- Register Form (Initially Hidden) -->
+                                <div id="register-form" class="hidden">
+                                    <form class="mt-5 mb-5 login-input">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" placeholder="Email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" placeholder="Password" required>
+                                        </div>
+                                        <button class="btn login-form__btn submit w-100">Sign Up</button>
+                                    </form>
+                                    <p class="mt-5 login-form__footer">
+                                        Already have an account?
+                                        <a href="#" id="show-login" class="text-primary">Sign In</a> now
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('show-register').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('register-form').classList.remove('hidden');
+        });
+
+        document.getElementById('show-login').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('register-form').classList.add('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+        });
+    </script>
+</body>
+
+</html>

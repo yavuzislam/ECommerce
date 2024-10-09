@@ -1,0 +1,26 @@
+﻿@model CreateCategoryDto
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <input type="text" asp-for="Name" class="form-control" placeholder="Kategori Adı" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <br />
+    <div>
+        <input type="text" asp-for="Description" class="form-control" placeholder="Açıklama" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+
+    </div>
+    <br />
+    <div>
+        <input type="file" asp-for="ImageFile" class="form-control" placeholder="Resim Ekle" />
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
+
+    </div>
+    <br />
+    <button class="btn btn-primary">Kategori Ekle</button>
+</form>

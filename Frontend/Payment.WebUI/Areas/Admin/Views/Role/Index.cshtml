@@ -1,0 +1,90 @@
+﻿@model List<ResultAppRoleDto>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="~/adminweb/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">Rol Listesi</h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered zero-configuration">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Sil</th>
+                                    <th>Güncelle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.ID</td>
+                                        <td>@item.Name</td>
+                                        <td><a href="/Admin/Role/Delete?id=@item.ID" class="btn btn-danger btn-sm">Sil</a></td>
+                                        <td><a href="/Admin/Role/Update?id=@item.ID" class="btn btn-success btn-sm">Güncelle</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Sil</th>
+                                    <th>Güncelle</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="/Admin/Role/Create" class="btn btn-info btn-lg btn-rounded shadow-lg">Yeni Role Ekle</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-rounded {
+        border-radius: 50px;
+    }
+
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1.25rem;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .btn-info:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+        }
+
+    .shadow-lg {
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    }
+
+    .text-center {
+        display: flex;
+        justify-content: center;
+    }
+</style>

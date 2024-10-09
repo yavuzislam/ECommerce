@@ -1,0 +1,20 @@
+﻿@model CreateAppRoleDto
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<form method="post">
+    <div>
+        <input type="text" asp-for="Name" class="form-control" placeholder="Kategori Adı" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    <br />
+    <button class="btn btn-primary">Rol Ekle</button>
+</form>

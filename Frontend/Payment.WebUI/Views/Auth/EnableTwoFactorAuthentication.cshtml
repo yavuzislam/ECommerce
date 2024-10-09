@@ -1,0 +1,112 @@
+﻿@model EnableTwoFactorAuthenticationViewModel
+@using QRCoder
+@{
+    ViewData["Title"] = "Two-Factor Authentication Setup";
+    Layout = "~/Views/UILayout/_UILayout.cshtml";
+}
+
+<!-- Ana Sayfa Tasarımı -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-body p-5">
+                    <h3 class="text-center mb-4" style="color: #2c3e50;">@ViewData["Title"]</h3>
+                    <p class="text-center text-muted">Authenticator uygulamasıyla hesabınızı güvence altına almak için aşağıdaki adımları izleyin:</p>
+                    <ol class="list-group list-group-flush mb-4">
+                        <li class="list-group-item">Authenticator uygulamasını açın.</li>
+                        <li class="list-group-item">Yeni hesap ekleyin ve "Barkod Tarayın" seçeneğini seçin.</li>
+                        <li class="list-group-item">Aşağıdaki QR kodunu tarayın:</li>
+                    </ol>
+
+                    <!-- QR Kodunun Ortalanması ve Şık Gösterimi -->
+                    <div class="text-center mb-4">
+                        <img src="data:image/png;base64,@Html.Raw(GenerateQrCode(Model.AuthenticatorUri))" alt="QR Code" class="img-fluid rounded shadow" style="max-width: 300px;" />
+                    </div>
+
+                    <p class="text-center text-muted">QR kodunu tarayamıyorsanız, aşağıdaki anahtarı manuel olarak girin:</p>
+                    <p class="text-center"><strong>Paylaşılan Anahtar:</strong> <span style="color: #27ae60;">@Model.SharedKey</span></p>
+
+                    <!-- Doğrulama Kodu Girişi -->
+                    <form asp-action="EnableTwoFactorAuthentication" method="post" class="mb-3">
+                        <div class="form-group">
+                            <label for="Code" class="form-label">Doğrulama Kodu</label>
+                            <input type="text" class="form-control form-control-lg text-center" id="Code" asp-for="Code" placeholder="123456" required />
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg w-100 mt-3 shadow-sm">Doğrula ve Etkinleştir</button>
+                    </form>
+
+                    <!-- Çıkış Yap Butonu -->
+                    <div class="text-center">
+                        <a href="@Url.Action("Logout", "Auth")" class="btn btn-link text-muted">Çıkış Yap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    private string GenerateQrCode(string authenticatorUri)
+    {
+        using (var qrGenerator = new QRCodeGenerator())
+        {
+            var qrCodeData = qrGenerator.CreateQrCode(authenticatorUri, QRCodeGenerator.ECCLevel.Q);
+            var qrCode = new Base64QRCode(qrCodeData);
+            return qrCode.GetGraphic(20);
+        }
+    }
+}
+
+<!-- CSS -->
+<style>
+    body {
+        background-color: #f4f6f9; /* Arka planı yumuşak bir renkle değiştiriyoruz */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tipografi seçimi */
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 15px;
+    }
+
+    h3 {
+        font-size: 1.75rem;
+        font-weight: 600;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .btn-success {
+        background-color: #27ae60;
+        border-color: #27ae60;
+    }
+
+        .btn-success:hover {
+            background-color: #2ecc71;
+            border-color: #27ae60;
+        }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .text-muted {
+        font-size: 0.9rem;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        background-color: transparent;
+    }
+
+        .list-group-item:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+</style>

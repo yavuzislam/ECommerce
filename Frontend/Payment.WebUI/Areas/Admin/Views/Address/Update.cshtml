@@ -1,0 +1,102 @@
+﻿@model UpdateAddressDto
+@{
+    ViewData["Title"] = "Update Address";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Id" class="form-control" />
+
+    <div>
+        <input type="text" asp-for="AddressLine" class="form-control" placeholder="Adres" />
+        <span asp-validation-for="AddressLine" class="text-danger"></span>
+    </div>
+    <br />
+
+    <!-- Şehir dropdown -->
+    <div>
+        <label for="cityDropdown">Şehir Seçin</label>
+        <select id="cityDropdown" name="City" class="form-control">
+            <option value="">Şehir seçin</option>
+        </select>
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+    <br />
+
+    <!-- İlçe dropdown -->
+    <div>
+        <label for="districtDropdown">İlçe Seçin</label>
+        <select id="districtDropdown" name="District" class="form-control">
+            <option value="">İlçe seçin</option>
+        </select>
+        <span asp-validation-for="District" class="text-danger"></span>
+    </div>
+    <br />
+
+    <div>
+        <input type="text" asp-for="AppUserId" class="form-control" placeholder="Kullanıcı ID" />
+        <span asp-validation-for="AppUserId" class="text-danger"></span>
+    </div>
+    <br />
+
+    <button class="btn btn-primary">Adres Güncelle</button>
+</form>
+
+<!-- JavaScript bölümünde AJAX ve JSON işlemleri -->
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Mevcut verileri sayfada doldurmak için modeldeki mevcut şehir ve ilçe verilerini alıyoruz
+            var selectedCity = '@Model.City';
+            var selectedDistrict = '@Model.District';
+
+            // AJAX isteği ile JSON verisini sunucudan çekiyoruz
+            $.ajax({
+                url: '/Admin/Address/GetJsonData',
+                type: 'GET',
+                success: function (data) {
+                    var cities = [];
+
+                    // Şehirleri dropdown'a ekliyoruz
+                    $.each(data, function (index, value) {
+                        if ($.inArray(value.il, cities) === -1) {
+                            cities.push(value.il);
+                            $('#cityDropdown').append('<option value="' + value.il + '">' + value.il + '</option>');
+                        }
+                    });
+
+                    // Mevcut şehir ve ilçeyi seçili hale getiriyoruz
+                    $('#cityDropdown').val(selectedCity);
+
+                    // Seçilen şehre ait ilçeleri getiriyoruz
+                    $.each(data, function (index, value) {
+                        if (value.il === selectedCity) {
+                            $('#districtDropdown').append('<option value="' + value.ilce + '">' + value.ilce + '</option>');
+                        }
+                    });
+
+                    // Mevcut ilçeyi seçili hale getiriyoruz
+                    $('#districtDropdown').val(selectedDistrict);
+
+                    // Şehir seçildiğinde ilgili ilçeleri dolduruyoruz
+                    $('#cityDropdown').change(function () {
+                        var selectedCity = $(this).val();
+                        $('#districtDropdown').empty(); // İlçe dropdown'unu temizle
+                        $('#districtDropdown').append('<option value="">İlçe seçin</option>');
+
+                        // Seçilen şehre ait ilçeleri getiriyoruz
+                        $.each(data, function (index, value) {
+                            if (value.il === selectedCity) {
+                                $('#districtDropdown').append('<option value="' + value.ilce + '">' + value.ilce + '</option>');
+                            }
+                        });
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log("Bir hata oluştu: " + error);
+                }
+            });
+        });
+    </script>
+}
